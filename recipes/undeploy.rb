@@ -6,7 +6,6 @@ node[:deploy].each do |application, deploy|
     next
   end
 
-  deploy = node[:deploy][application]
   layer_short_name = node[:opsworks][:instance][:layers].first
 
   execute "undeploy Rails app #{application} for #{layer_short_name}" do
