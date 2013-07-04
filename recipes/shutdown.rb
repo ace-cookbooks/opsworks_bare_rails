@@ -11,5 +11,6 @@ node[:deploy].each do |application, deploy|
     cwd deploy[:current_path]
     command node[:bare_rails][layer_short_name][:shutdown_command]
     action :run
+    not_if { node[:bare_rails][layer_short_name][:shutdown_command].nil? || node[:bare_rails][layer_short_name][:shutdown_command].empty? }
   end
 end
