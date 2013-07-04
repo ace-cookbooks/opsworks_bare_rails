@@ -13,6 +13,9 @@ node[:deploy].each do |application, deploy|
     path deploy[:deploy_to]
   end
 
+  # Disable the deploy restart for this run
+  node.set[:opsworks][:rails_stack][:restart_command] = '/bin/true'
+
   opsworks_deploy do
     deploy_data deploy
     app application
