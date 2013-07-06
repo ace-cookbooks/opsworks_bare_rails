@@ -8,11 +8,12 @@ node[:deploy].each do |application, deploy|
 
   layer_short_name = node[:opsworks][:instance][:layers].first
 
-  execute "undeploy Rails app #{application} for #{layer_short_name}" do
-    cwd deploy[:current_path]
-    command node[:bare_rails][layer_short_name][:undeploy_command]
-    action :run
-    not_if { node[:bare_rails][layer_short_name][:undeploy_command].nil? || node[:bare_rails][layer_short_name][:undeploy_command].empty? }
+  if node[:bare_rails][layer_short_name][:undeploy_command] && node[:bare_rails][layer_short_name][:undeploy_command] != ''
+    execute "undeploy Rails app #{application} for #{layer_short_name}" do
+      cwd deploy[:current_path]
+      command node[:bare_rails][layer_short_name][:undeploy_command]
+      action :run
+    end
   end
 
   directory "#{deploy[:deploy_to]}" do
