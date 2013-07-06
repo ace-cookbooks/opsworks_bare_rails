@@ -6,7 +6,7 @@ node[:deploy].each do |application, deploy|
 
   layer_short_name = node[:opsworks][:instance][:layers].first
 
-  if node[:bare_rails][layer_short_name][:configure_command] && node[:bare_rails][layer_short_name][:configure_command] != ''
+  if node[:bare_rails][layer_short_name] && node[:bare_rails][layer_short_name][:configure_command] && node[:bare_rails][layer_short_name][:configure_command] != ''
     execute "configure Rails app #{application} for #{layer_short_name}" do
       cwd deploy[:current_path]
       command node[:bare_rails][layer_short_name][:configure_command]
